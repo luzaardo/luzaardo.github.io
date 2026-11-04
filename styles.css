@@ -147,14 +147,13 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 /* ---------- Playground easter egg ---------- */
 .menu { align-items: center; }
 .menu-link.egg-link {
-  font-size: clamp(1rem, 1.4vw, 1.25rem); font-weight: 600; letter-spacing: .02em;
   color: transparent; text-decoration: none;
   background-image: linear-gradient(90deg,
-    hsl(330 100% 50%) 0%, hsl(295 100% 55%) 12%, hsl(210 100% 60%) 24%, hsl(140 100% 55%) 36%, hsl(60 100% 70%) 48%,
-    hsl(330 100% 50%) 50%, hsl(330 100% 50%) 100%);
+    #778fe5 0%, #a499e8 8%, #d891b3 16%, #f8a482 24%, #fcb25b 32%, #61d493 40%, #3fa397 48%,
+    #778fe5 50%, #778fe5 100%);
   background-size: 200% 100%; background-position: 100% 50%;
   -webkit-background-clip: text; background-clip: text;
-  opacity: 0; filter: blur(6px);
+  opacity: 0; filter: blur(8px);
   transition: opacity 1s ease, filter 1s ease, background-position 1s ease;
 }
 .menu-link.egg-link.shown {
@@ -162,16 +161,38 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
   transition: opacity 1.5s ease-out, filter 1.5s ease-out, background-position 1.5s ease-out;
 }
 .menu-link.egg-link:focus-visible { opacity: 1; filter: none; background-position: 0% 50%; }
-.menu-link.egg-link .arrow { -webkit-text-fill-color: transparent; }
+.menu-link.egg-link .arrow { display: none; }
+.arrow.show { display: inline; }
 
-/* Phones and tablets cannot hover, so the link stays visible there, small and quiet */
-@media (hover: none) {
-  .menu-link.egg-link {
-    opacity: 1; filter: none; background: none; -webkit-background-clip: border-box; background-clip: border-box;
-    color: var(--muted); font-size: 1.125rem;
-  }
+/* Phones keep the same small size */
+@media (hover: none), (max-width: 760px) {
+  .menu-link.egg-link { font-size: 1.17rem; min-height: 44px; letter-spacing: 0; }
 }
 @media (max-width: 760px) {
   .menu { align-items: flex-start; }
-  .menu-link.egg-link { min-height: 44px; font-size: 1.125rem; }
 }
+
+/* ---------- Name + star ---------- */
+.name { position: relative; display: inline-block; }
+.name-text { display: inline-block; text-transform: uppercase; }
+.star { position: absolute; top: 50%; left: calc(100% + .35em); width: .9em; height: .9em; transform: translateY(-50%); overflow: visible; }
+.thin-arrow { width: .8em; height: .8em; margin-left: .25em; vertical-align: -.05em; }
+
+/* First visit only: the star accelerates across the name, uncovering it, then stops.
+   At the same moment a band of the same gradient runs through the subtitle letters,
+   using the same timing, so both speed up and stop together. */
+html.star-anim .name-text { animation: name-reveal 1.5s cubic-bezier(.6, 0, 1, .5) both; }
+html.star-anim .star { animation: star-slide 1.5s cubic-bezier(.6, 0, 1, .5) both; }
+html.star-anim .subtitle {
+  color: transparent;
+  background-image: linear-gradient(90deg,
+    #fff 0%, #fff 38%,
+    #778fe5 41%, #a499e8 44.5%, #d891b3 48%, #f8a482 51.5%, #fcb25b 55%, #61d493 58.5%, #3fa397 62%,
+    #fff 65%, #fff 100%);
+  background-size: 300% 100%; background-position: 0% 0;
+  -webkit-background-clip: text; background-clip: text;
+  animation: subtitle-sweep 1.5s cubic-bezier(.6, 0, 1, .5) both;
+}
+@keyframes name-reveal { from { clip-path: inset(-4px 100% -4px 0); } to { clip-path: inset(-4px -4px -4px 0); } }
+@keyframes star-slide { from { left: 0; } to { left: calc(100% + .35em); } }
+@keyframes subtitle-sweep { from { background-position: 100% 0; } to { background-position: 0% 0; } }
