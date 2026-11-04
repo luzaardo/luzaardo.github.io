@@ -178,12 +178,12 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 .star { position: absolute; top: 50%; left: calc(100% + .35em); width: .9em; height: .9em; transform: translateY(-50%); overflow: visible; }
 .thin-arrow { width: .8em; height: .8em; margin-left: .25em; vertical-align: -.05em; }
 
-/* First visit only: the star accelerates across the name, uncovering it, then stops.
-   At the same moment a band of the same gradient runs through the subtitle letters. It starts
-   and finishes with the star, with a gentler speed-up so the color is seen across all the words. */
-html.star-anim .name-text { animation: name-reveal 1.5s cubic-bezier(.6, 0, 1, .5) both; }
-html.star-anim .star { animation: star-slide 1.5s cubic-bezier(.6, 0, 1, .5) both; }
-html.star-anim .subtitle {
+/* First visit only: the star glides across the name at a steady speed, uncovering it, then stops.
+   At the same moment a band of the same gradient runs through the words "My star is" only,
+   at the same steady pace. Everything else stays still. */
+html.star-anim .name-text { animation: name-reveal 1.5s linear both; }
+html.star-anim .star { animation: star-slide 1.5s linear both; }
+html.star-anim .subtitle .hl {
   color: transparent;
   background-image: linear-gradient(90deg,
     #fff 0%, #fff 38%,
@@ -191,8 +191,8 @@ html.star-anim .subtitle {
     #fff 65%, #fff 100%);
   background-size: 300% 100%; background-position: 0% 0;
   -webkit-background-clip: text; background-clip: text;
-  animation: subtitle-sweep 1.5s cubic-bezier(.45, 0, .85, .65) both;
+  animation: hl-sweep 1.5s linear both;
 }
 @keyframes name-reveal { from { clip-path: inset(-4px 100% -4px 0); } to { clip-path: inset(-4px -4px -4px 0); } }
 @keyframes star-slide { from { left: 0; } to { left: calc(100% + .35em); } }
-@keyframes subtitle-sweep { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+@keyframes hl-sweep { from { background-position: 100% 0; } to { background-position: 0% 0; } }
