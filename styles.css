@@ -175,24 +175,35 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 /* ---------- Name + star ---------- */
 .name { position: relative; display: inline-block; }
 .name-text { display: inline-block; text-transform: uppercase; }
-.star { position: absolute; top: 50%; left: calc(100% + .35em); width: .9em; height: .9em; transform: translateY(-50%); overflow: visible; }
+.star { position: absolute; top: 50%; left: calc(100% + .35em); width: .89em; height: 1.1em; transform: translateY(-50%); overflow: visible; }
 .thin-arrow { width: .8em; height: .8em; margin-left: .25em; vertical-align: -.05em; }
 
-/* First visit only: the star glides across the name at a steady speed, uncovering it, then stops.
-   At the same moment a band of the same gradient runs through the words "My star is" only,
-   at the same steady pace. Everything else stays still. */
-html.star-anim .name-text { animation: name-reveal 1.5s linear both; }
+/* On every load: the star glides across the name at a steady speed. The name comes into focus
+   behind it through a soft, feathered edge. At the same moment a soft band of the gradient
+   eases in and out through the words "My star is" only. Everything else stays still. */
+html.star-anim .name-text {
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 42.5%, transparent 57.5%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 42.5%, transparent 57.5%, transparent 100%);
+  -webkit-mask-size: 240% 100%; mask-size: 240% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: 0% 0; mask-position: 0% 0;
+  animation: name-reveal 1.5s linear both;
+}
 html.star-anim .star { animation: star-slide 1.5s linear both; }
 html.star-anim .subtitle .hl {
   color: transparent;
-  background-image: linear-gradient(90deg,
-    #fff 0%, #fff 38%,
-    #778fe5 41%, #a499e8 44.5%, #d891b3 48%, #f8a482 51.5%, #fcb25b 55%, #61d493 58.5%, #3fa397 62%,
-    #fff 65%, #fff 100%);
+  background-image: linear-gradient(90deg, #ffffff 0.0%, #ffffff 34.0%, #f5f7fd 35.3%, #dce2f8 36.7%, #bbc7f2 38.0%, #9aacec 39.3%, #8197e7 40.7%, #778fe5 42.0%, #a499e8 44.7%, #d891b3 47.3%, #f8a482 50.0%, #fcb25b 52.7%, #61d493 55.3%, #3fa397 58.0%, #4daa9f 59.3%, #71bbb2 60.7%, #9fd1cb 62.0%, #cde7e4 63.3%, #f1f8f7 64.7%, #ffffff 66.0%, #ffffff 100.0%);
   background-size: 300% 100%; background-position: 0% 0;
   -webkit-background-clip: text; background-clip: text;
-  animation: hl-sweep 1.5s linear both;
+  animation: hl-sweep 1.5s cubic-bezier(.45, 0, .25, 1) both;
 }
-@keyframes name-reveal { from { clip-path: inset(-4px 100% -4px 0); } to { clip-path: inset(-4px -4px -4px 0); } }
-@keyframes star-slide { from { left: 0; } to { left: calc(100% + .35em); } }
+@keyframes name-reveal {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; filter: blur(6px); }
+  to { -webkit-mask-position: 0% 0; mask-position: 0% 0; filter: blur(0); }
+}
+@keyframes star-slide {
+  0% { left: 0; opacity: 0; }
+  12% { opacity: 1; }
+  100% { left: calc(100% + .35em); opacity: 1; }
+}
 @keyframes hl-sweep { from { background-position: 100% 0; } to { background-position: 0% 0; } }
