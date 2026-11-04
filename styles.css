@@ -179,8 +179,8 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 .thin-arrow { width: .8em; height: .8em; margin-left: .25em; vertical-align: -.05em; }
 
 /* First visit only: the star accelerates across the name, uncovering it, then stops.
-   At the same moment a band of the same gradient runs through the subtitle letters,
-   using the same timing, so both speed up and stop together. */
+   At the same moment a band of the same gradient runs through the subtitle letters. It starts
+   and finishes with the star, with a gentler speed-up so the color is seen across all the words. */
 html.star-anim .name-text { animation: name-reveal 1.5s cubic-bezier(.6, 0, 1, .5) both; }
 html.star-anim .star { animation: star-slide 1.5s cubic-bezier(.6, 0, 1, .5) both; }
 html.star-anim .subtitle {
@@ -191,7 +191,7 @@ html.star-anim .subtitle {
     #fff 65%, #fff 100%);
   background-size: 300% 100%; background-position: 0% 0;
   -webkit-background-clip: text; background-clip: text;
-  animation: subtitle-sweep 1.5s cubic-bezier(.6, 0, 1, .5) both;
+  animation: subtitle-sweep 1.5s cubic-bezier(.45, 0, .85, .65) both;
 }
 @keyframes name-reveal { from { clip-path: inset(-4px 100% -4px 0); } to { clip-path: inset(-4px -4px -4px 0); } }
 @keyframes star-slide { from { left: 0; } to { left: calc(100% + .35em); } }
