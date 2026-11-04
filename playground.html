@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground | Valentina Luzardo</title>
+  <meta name="description" content="Outside work and creative projects by Valentina Luzardo.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+
+  <div class="page-top">
+    <a class="btn" id="back" href="index.html">← Back</a>
+  </div>
+
+  <main id="main">
+    <section class="page-head">
+      <h1>Header 4 - Playground</h1>
+      <p>Subtitle 4 - Short description of outside work and creative projects</p>
+    </section>
+
+    <ul class="playground-grid">
+      <li class="tile"><h2>Playground Item 1</h2><p>Description 1 - Type of work</p></li>
+      <li class="tile"><h2>Playground Item 2</h2><p>Description 2 - Type of work</p></li>
+      <li class="tile"><h2>Playground Item 3</h2><p>Description 3 - Type of work</p></li>
+    </ul>
+  </main>
+
+  <script>
+    // If the visitor came from the Home page, "Back" uses the browser's history,
+    // so the browser's back arrow and this button always behave the same way.
+    document.getElementById('back').addEventListener('click', function (e) {
+      try {
+        if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+          e.preventDefault();
+          history.back();
+        }
+      } catch (err) { /* falls back to the normal link */ }
+    });
+  </script>
+</body>
+</html>

@@ -5,9 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentina Luzardo | UX Designer</title>
   <meta name="description" content="Portfolio of Valentina Luzardo, UX designer.">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Valentina Luzardo</h1>
-  <p>UX designer. Portfolio coming soon.</p>
+  <a class="skip" href="#main">Skip to main content</a>
+
+
+  <main id="main">
+    <span id="top"></span>
+    <section class="intro" aria-labelledby="h1">
+      <h1 id="h1">Valentina Luzardo</h1>
+      <p class="subtitle">My star is quantifiable results through research and creative design. I look to understand, uncover, and deliver.</p>
+      <ul class="menu">
+        <li><button class="menu-link" type="button" data-open="cv-dialog">CV<span class="arrow" aria-hidden="true"> →</span></button></li>
+        <li><button class="menu-link" type="button" data-open="contact-dialog">CONTACT ME<span class="arrow" aria-hidden="true"> →</span></button></li>
+        <li><a class="menu-link" href="playground.html">PLAYGROUND<span class="arrow" aria-hidden="true"> →</span></a></li>
+      </ul>
+    </section>
+
+    <section class="projects" aria-label="Projects">
+      <a class="project" href="#" aria-label="Project 1: Result, title and role">
+        <div class="result">Result 1 - Key data</div>
+        <div class="result-label">Result label 1 - What the number means</div>
+        <h2>Project Title 1</h2>
+        <p class="role">Role 1 - Your role in one line</p>
+      </a>
+      <a class="project" href="#" aria-label="Project 2: Result, title and role">
+        <div class="result">Result 2 - Key data</div>
+        <div class="result-label">Result label 2 - What the number means</div>
+        <h2>Project Title 2</h2>
+        <p class="role">Role 2 - Your role in one line</p>
+      </a>
+    </section>
+
+    <a class="btn to-top" href="#top">Back to top</a>
+  </main>
+
+  <!-- Contact pop-up -->
+  <dialog id="contact-dialog" aria-labelledby="contact-title">
+    <div class="dialog-head">
+      <h2 id="contact-title">Ready to connect.</h2>
+      <button class="btn" type="button" data-close>Back</button>
+    </div>
+    <ul class="contact-list">
+      <li>
+        <a href="mailto:valentinaluzardoprieto@gmail.com">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span class="row-text"><span class="label">Email</span><span class="value">valentinaluzardoprieto@<wbr>gmail.com</span></span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/in/valentinaluzardo/" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          <span class="row-text"><span class="label">LinkedIn</span><span class="value">linkedin.com/in/<wbr>valentinaluzardo</span></span>
+        </a>
+      </li>
+    </ul>
+  </dialog>
+
+  <!-- CV pop-up -->
+  <dialog id="cv-dialog" aria-labelledby="cv-title">
+    <div class="dialog-head">
+      <h2 id="cv-title">Header 3 - CV</h2>
+      <button class="btn" type="button" data-close>Back</button>
+    </div>
+    <div class="cv-preview" role="img" aria-label="Preview of the CV (placeholder)">
+      <div class="line title"></div><div class="line short"></div>
+      <div class="line"></div><div class="line mid"></div><div class="line"></div>
+      <div class="line short"></div><div class="line"></div><div class="line mid"></div>
+      <div class="line"></div><div class="line short"></div><div class="line"></div>
+    </div>
+    <p class="cv-note">Placeholder preview. The real CV image goes here.</p>
+    <a class="btn solid" href="cv.pdf" download>Button 3 - Download CV</a>
+  </dialog>
+
+  <script>
+    // Opens a pop-up and adds a browser "history" step, so the
+    // browser's own back arrow closes the pop-up smoothly instead of leaving the site.
+    const dialogs = document.querySelectorAll('dialog');
+    let lastTrigger = null;
+
+    function openDialog(id, trigger) {
+      const d = document.getElementById(id);
+      if (!d || d.open) return;
+      lastTrigger = trigger || lastTrigger;
+      d.showModal();
+      history.pushState({ dialog: id }, '');
+    }
+    function closeAll() {
+      dialogs.forEach(d => d.open && d.close());
+      if (lastTrigger) lastTrigger.focus();
+    }
+
+    document.querySelectorAll('[data-open]').forEach(b =>
+      b.addEventListener('click', () => openDialog(b.dataset.open, b)));
+
+    document.querySelectorAll('[data-close]').forEach(b =>
+      b.addEventListener('click', () => {
+        if (history.state && history.state.dialog) history.back(); else closeAll();
+      }));
+
+    // Browser back arrow closes the pop-up
+    window.addEventListener('popstate', closeAll);
+
+    // Esc key or clicking the dark area also closes it
+    dialogs.forEach(d => {
+      d.addEventListener('cancel', e => {
+        e.preventDefault();
+        if (history.state && history.state.dialog) history.back(); else closeAll();
+      });
+      d.addEventListener('click', e => {
+        if (e.target === d) { if (history.state && history.state.dialog) history.back(); else closeAll(); }
+      });
+    });
+  </script>
 </body>
 </html>
