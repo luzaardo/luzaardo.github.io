@@ -124,7 +124,7 @@
 
     // Playground easter egg.
     // Desktop: appears when the mouse touches its spot (1.5 s fade-in, 0.7 s visible, 1 s fade-out).
-    // Phones (no hover): appears by itself every 45 s (1.5 s fade-in, 3 s visible, 1 s fade-out).
+    // Phones (no hover): appears by itself every 20 s (1.5 s fade-in, 3 s visible, 1 s fade-out).
     // Keyboard focus keeps it visible while selected.
     (function () {
       const egg = document.querySelector('.egg-link');
@@ -138,7 +138,7 @@
       egg.addEventListener('blur', hide);
       setInterval(() => {
         if (noHover.matches && !document.hidden && document.activeElement !== egg) show(3000);
-      }, 45000);
+      }, 20000);
     })();
   </script>
 </body>
