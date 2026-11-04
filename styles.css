@@ -178,32 +178,62 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 .star { position: absolute; top: 50%; left: calc(100% + .35em); width: .89em; height: 1.1em; transform: translateY(-50%); overflow: visible; }
 .thin-arrow { width: .8em; height: .8em; margin-left: .25em; vertical-align: -.05em; }
 
-/* On every load: the star glides across the name at a steady speed. The name comes into focus
-   behind it through a soft, feathered edge. At the same moment a soft band of the gradient
-   eases in and out through the words "My star is" only. Everything else stays still. */
+/* On every load.
+   Name: comes into focus and fades in with the gradient gliding through the letters (the same
+   effect as the Playground link), then settles to plain white.
+   Star: three dots pop in beside the name, spin in toward each other, merge, and burst into the star. */
+.dot { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.dots { transform-origin: 40.45px 50px; }
+.star-grad { transform-box: fill-box; transform-origin: center; }
+
 html.star-anim .name-text {
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 42.5%, transparent 57.5%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 0%, #000 42.5%, transparent 57.5%, transparent 100%);
-  -webkit-mask-size: 240% 100%; mask-size: 240% 100%;
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  -webkit-mask-position: 0% 0; mask-position: 0% 0;
-  animation: name-reveal 1.5s linear both;
-}
-html.star-anim .star { animation: star-slide 1.5s linear both; }
-html.star-anim .subtitle .hl {
   color: transparent;
   background-image: linear-gradient(90deg, #ffffff 0.0%, #ffffff 34.0%, #f5f7fd 35.3%, #dce2f8 36.7%, #bbc7f2 38.0%, #9aacec 39.3%, #8197e7 40.7%, #778fe5 42.0%, #a499e8 44.7%, #d891b3 47.3%, #f8a482 50.0%, #fcb25b 52.7%, #61d493 55.3%, #3fa397 58.0%, #4daa9f 59.3%, #71bbb2 60.7%, #9fd1cb 62.0%, #cde7e4 63.3%, #f1f8f7 64.7%, #ffffff 66.0%, #ffffff 100.0%);
   background-size: 300% 100%; background-position: 0% 0;
   -webkit-background-clip: text; background-clip: text;
-  animation: hl-sweep 1.5s cubic-bezier(.45, 0, .25, 1) both;
+  animation: name-in 1.5s ease-out both;
 }
-@keyframes name-reveal {
-  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; filter: blur(6px); }
-  to { -webkit-mask-position: 0% 0; mask-position: 0% 0; filter: blur(0); }
+@keyframes name-in {
+  from { opacity: 0; filter: blur(8px); background-position: 100% 0; }
+  to { opacity: 1; filter: blur(0); background-position: 0% 0; }
 }
-@keyframes star-slide {
-  0% { left: 0; opacity: 0; }
-  12% { opacity: 1; }
-  100% { left: calc(100% + .35em); opacity: 1; }
+
+html.star-anim .dots { animation: dots-spin .85s ease-in-out .35s both; }
+html.star-anim .d1 { animation: dot-1 .85s ease-in-out .35s both; }
+html.star-anim .d2 { animation: dot-2 .85s ease-in-out .35s both; }
+html.star-anim .d3 { animation: dot-3 .85s ease-in-out .35s both; }
+@keyframes dots-spin { 0%, 41% { transform: rotate(0deg); } 88%, 100% { transform: rotate(-150deg); } }
+@keyframes dot-1 {
+  0% { transform: translate(0px, -24px) scale(0); opacity: 0; }
+  14% { transform: translate(0px, -24px) scale(1.2); opacity: 1; }
+  23.5%, 41% { transform: translate(0px, -24px) scale(1); opacity: 1; }
+  88% { transform: translate(0px, -5px) scale(1); opacity: 1; }
+  100% { transform: translate(0px, -3px) scale(.5); opacity: 0; }
 }
-@keyframes hl-sweep { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+@keyframes dot-2 {
+  0% { transform: translate(-20.8px, 12px) scale(0); opacity: 0; }
+  14% { transform: translate(-20.8px, 12px) scale(1.2); opacity: 1; }
+  23.5%, 41% { transform: translate(-20.8px, 12px) scale(1); opacity: 1; }
+  88% { transform: translate(-4.3px, 2.5px) scale(1); opacity: 1; }
+  100% { transform: translate(-2.6px, 1.5px) scale(.5); opacity: 0; }
+}
+@keyframes dot-3 {
+  0% { transform: translate(20.8px, 12px) scale(0); opacity: 0; }
+  14% { transform: translate(20.8px, 12px) scale(1.2); opacity: 1; }
+  23.5%, 41% { transform: translate(20.8px, 12px) scale(1); opacity: 1; }
+  88% { transform: translate(4.3px, 2.5px) scale(1); opacity: 1; }
+  100% { transform: translate(2.6px, 1.5px) scale(.5); opacity: 0; }
+}
+
+html.star-anim .star-grad { animation: star-pop .45s cubic-bezier(.2, .8, .2, 1) 1.05s both; }
+html.star-anim .star { animation: star-shimmer .7s ease-out 1.05s both; }
+@keyframes star-pop {
+  0% { opacity: 0; transform: scale(.3) rotate(-20deg); }
+  45% { opacity: 1; transform: scale(1.2) rotate(6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes star-shimmer {
+  0% { filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+  35% { filter: drop-shadow(0 0 7px rgba(255, 255, 255, .85)) brightness(1.5); }
+  100% { filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+}
