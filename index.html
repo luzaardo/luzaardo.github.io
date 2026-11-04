@@ -6,10 +6,8 @@
   <title>Valentina Luzardo | UX Designer</title>
   <meta name="description" content="Portfolio of Valentina Luzardo, UX designer.">
   <script>
-    // Plays the star animation only on the first visit of a browsing session
-    try {
-      if (!sessionStorage.getItem('starSeen')) { document.documentElement.classList.add('star-anim'); sessionStorage.setItem('starSeen', '1'); }
-    } catch (e) { document.documentElement.classList.add('star-anim'); }
+    // Plays the star animation on every page load, before the page first paints
+    document.documentElement.classList.add('star-anim');
   </script>
   <link rel="stylesheet" href="styles.css">
 </head>
