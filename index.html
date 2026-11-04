@@ -19,7 +19,7 @@
       <ul class="menu">
         <li><button class="menu-link" type="button" data-open="cv-dialog">CV<span class="arrow" aria-hidden="true"> →</span></button></li>
         <li><button class="menu-link" type="button" data-open="contact-dialog">CONTACT ME<span class="arrow" aria-hidden="true"> →</span></button></li>
-        <li><a class="menu-link" href="playground.html">PLAYGROUND<span class="arrow" aria-hidden="true"> →</span></a></li>
+        <li><a class="menu-link egg-link" href="playground.html">PLAYGROUND<span class="arrow" aria-hidden="true"> →</span></a></li>
       </ul>
     </section>
 
@@ -64,19 +64,18 @@
   </dialog>
 
   <!-- CV pop-up -->
-  <dialog id="cv-dialog" aria-labelledby="cv-title">
-    <div class="dialog-head">
-      <h2 id="cv-title">Header 3 - CV</h2>
+  <dialog id="cv-dialog" aria-label="CV">
+    <div class="dialog-head end">
       <button class="btn" type="button" data-close>Back</button>
     </div>
-    <div class="cv-preview" role="img" aria-label="Preview of the CV (placeholder)">
+    <div class="cv-preview" role="img" aria-label="Preview of Valentina Luzardo's CV">
       <div class="line title"></div><div class="line short"></div>
       <div class="line"></div><div class="line mid"></div><div class="line"></div>
       <div class="line short"></div><div class="line"></div><div class="line mid"></div>
       <div class="line"></div><div class="line short"></div><div class="line"></div>
     </div>
-    <p class="cv-note">Placeholder preview. The real CV image goes here.</p>
-    <a class="btn solid" href="cv.pdf" download>Button 3 - Download CV</a>
+    <p class="cv-note">Preview of Valentina Luzardo's CV.</p>
+    <a class="menu-link" href="cv.pdf" download>DOWNLOAD CV<span class="arrow" aria-hidden="true"> ↓</span></a>
   </dialog>
 
   <script>
@@ -118,6 +117,19 @@
         if (e.target === d) { if (history.state && history.state.dialog) history.back(); else closeAll(); }
       });
     });
+
+    // Playground easter egg: shows when the mouse touches it (1.5 s fade-in),
+    // stays 4 s, then fades out over 1 s. Keyboard focus keeps it visible while selected.
+    (function () {
+      const egg = document.querySelector('.egg-link');
+      if (!egg) return;
+      let timer;
+      const show = () => { egg.classList.add('shown'); clearTimeout(timer); timer = setTimeout(hide, 5500); };
+      const hide = () => { clearTimeout(timer); egg.classList.remove('shown'); };
+      egg.addEventListener('mouseenter', show);
+      egg.addEventListener('focus', () => { egg.classList.add('shown'); clearTimeout(timer); });
+      egg.addEventListener('blur', hide);
+    })();
   </script>
 </body>
 </html>
