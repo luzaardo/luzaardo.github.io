@@ -47,7 +47,7 @@
     </section>
 
     <footer class="site-footer">
-      <p class="footer-mark"><svg class="footer-star" viewBox="0 0 80.9 100" aria-hidden="true" focusable="false"><defs><linearGradient id="footStarGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#778fe5"/><stop offset=".17" stop-color="#a499e8"/><stop offset=".34" stop-color="#d891b3"/><stop offset=".5" stop-color="#f8a482"/><stop offset=".67" stop-color="#fcb25b"/><stop offset=".84" stop-color="#61d493"/><stop offset="1" stop-color="#3fa397"/></linearGradient></defs><path  d="M39.4 0.0 L37.4 7.3 L36.4 15.4 L36.7 27.0 L35.9 29.7 L35.2 30.5 L33.3 30.5 L26.4 26.9 L22.6 23.8 L19.5 22.3 L19.7 23.3 L22.9 27.9 L24.5 31.6 L24.8 34.4 L23.8 35.7 L20.3 37.7 L16.2 38.9 L3.0 40.5 L0.0 41.6 L2.2 42.5 L6.7 43.2 L23.7 44.9 L25.9 46.0 L25.5 48.9 L20.2 58.6 L19.6 61.2 L21.1 60.6 L24.0 57.5 L27.6 55.3 L30.7 54.9 L32.1 56.6 L34.4 63.2 L35.4 70.0 L35.6 77.6 L36.9 90.7 L38.8 99.9 L39.3 99.4 L39.7 97.4 L39.8 88.4 L41.4 75.6 L41.6 58.1 L42.4 56.1 L43.0 55.6 L45.2 55.6 L60.7 62.1 L58.7 59.0 L50.9 51.8 L51.1 49.4 L54.6 48.0 L64.2 45.5 L76.0 44.4 L80.8 43.4 L80.5 43.0 L73.4 42.1 L68.9 41.0 L53.0 39.8 L50.6 39.0 L50.7 36.8 L57.1 27.1 L57.9 24.8 L57.1 24.5 L49.2 31.1 L48.0 31.7 L46.1 31.7 L45.7 31.4 L41.9 17.6 L40.5 8.2 L40.4 3.2Z" fill="url(#footStarGrad)" stroke="url(#footStarGrad)" stroke-width="1.5" stroke-linejoin="round"/></svg><span>VL</span></p>
+      <div class="footer-mark" id="footer-mark"><svg class="footer-star" viewBox="0 0 80.9 100" aria-hidden="true" focusable="false"><defs><linearGradient id="footStarGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#778fe5"/><stop offset=".17" stop-color="#a499e8"/><stop offset=".34" stop-color="#d891b3"/><stop offset=".5" stop-color="#f8a482"/><stop offset=".67" stop-color="#fcb25b"/><stop offset=".84" stop-color="#61d493"/><stop offset="1" stop-color="#3fa397"/></linearGradient></defs><path  d="M39.4 0.0 L37.4 7.3 L36.4 15.4 L36.7 27.0 L35.9 29.7 L35.2 30.5 L33.3 30.5 L26.4 26.9 L22.6 23.8 L19.5 22.3 L19.7 23.3 L22.9 27.9 L24.5 31.6 L24.8 34.4 L23.8 35.7 L20.3 37.7 L16.2 38.9 L3.0 40.5 L0.0 41.6 L2.2 42.5 L6.7 43.2 L23.7 44.9 L25.9 46.0 L25.5 48.9 L20.2 58.6 L19.6 61.2 L21.1 60.6 L24.0 57.5 L27.6 55.3 L30.7 54.9 L32.1 56.6 L34.4 63.2 L35.4 70.0 L35.6 77.6 L36.9 90.7 L38.8 99.9 L39.3 99.4 L39.7 97.4 L39.8 88.4 L41.4 75.6 L41.6 58.1 L42.4 56.1 L43.0 55.6 L45.2 55.6 L60.7 62.1 L58.7 59.0 L50.9 51.8 L51.1 49.4 L54.6 48.0 L64.2 45.5 L76.0 44.4 L80.8 43.4 L80.5 43.0 L73.4 42.1 L68.9 41.0 L53.0 39.8 L50.6 39.0 L50.7 36.8 L57.1 27.1 L57.9 24.8 L57.1 24.5 L49.2 31.1 L48.0 31.7 L46.1 31.7 L45.7 31.4 L41.9 17.6 L40.5 8.2 L40.4 3.2Z" fill="url(#footStarGrad)" stroke="url(#footStarGrad)" stroke-width="1.5" stroke-linejoin="round"/></svg><span>VL</span></div>
       <div class="footer-note">
         <h2>Currently</h2>
         <p>Working on more meaningful projects @ the University of North Texas.</p>
@@ -137,6 +137,108 @@
         if (e.target === d) { if (history.state && history.state.dialog) history.back(); else closeAll(); }
       });
     });
+
+
+    // Footer star (desktop only): click or press Enter/Space on the initials and the star flies up the
+    // empty right-hand side of the page, behind the content, and lands on the star beside the name.
+    (function () {
+      const mark = document.getElementById('footer-mark');
+      const heroStar = document.querySelector('.name .star');
+      const footStar = mark && mark.querySelector('.footer-star');
+      if (!mark || !heroStar || !footStar) return;
+      const desktop = window.matchMedia('(min-width: 761px) and (hover: hover)');
+      const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const COLORS = ['#778fe5', '#a499e8', '#d891b3', '#f8a482', '#fcb25b', '#61d493', '#3fa397'];
+      let flying = false;
+
+      function arm() {
+        if (desktop.matches) {
+          mark.setAttribute('role', 'button');
+          mark.setAttribute('tabindex', '0');
+          mark.setAttribute('aria-label', 'Send the star back to the top of the page');
+        } else {
+          mark.removeAttribute('role'); mark.removeAttribute('tabindex'); mark.removeAttribute('aria-label');
+        }
+      }
+      arm();
+      desktop.addEventListener('change', arm);
+
+      const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      const bez = (a, b, c, d, t) => { const u = 1 - t; return u*u*u*a + 3*u*u*t*b + 3*u*t*t*c + t*t*t*d; };
+      const center = el => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2, h: r.height }; };
+
+      function land(x, y) {
+        const glow = document.createElement('div');
+        glow.setAttribute('aria-hidden', 'true');
+        glow.style.cssText = 'position:fixed;z-index:5;pointer-events:none;width:110px;height:110px;border-radius:50%;' +
+          'left:' + (x - 55) + 'px;top:' + (y - 55) + 'px;mix-blend-mode:screen;' +
+          'background:radial-gradient(circle, rgba(255,240,215,.95) 0, rgba(248,164,130,.5) 28%, rgba(119,143,229,.18) 52%, transparent 70%);';
+        document.body.appendChild(glow);
+        glow.animate([{ transform: 'scale(.2)', opacity: 0 }, { transform: 'scale(1)', opacity: 1, offset: .35 }, { transform: 'scale(1.4)', opacity: 0 }],
+          { duration: 800, easing: 'ease-out' }).onfinish = () => glow.remove();
+        heroStar.animate([{ filter: 'brightness(1)' }, { filter: 'brightness(2.6) drop-shadow(0 0 6px rgba(255,230,200,.9))', offset: .3 }, { filter: 'brightness(1)' }],
+          { duration: 800, easing: 'ease-out' });
+      }
+
+      function fly() {
+        if (flying || !desktop.matches) return;
+        const top = document.getElementById('top');
+        if (calm.matches) { window.scrollTo({ top: 0, behavior: 'instant' }); if (top) top.focus({ preventScroll: true }); return; }
+        flying = true;
+        const W = window.innerWidth, H = window.innerHeight;
+        const y0 = window.scrollY;
+        const s = center(footStar);
+        const targetDocY = center(heroStar).y + y0;
+        const targetX = center(heroStar).x;
+        // The flying star is a copy of the footer star, drawn behind the page content.
+        const fl = footStar.cloneNode(true);
+        fl.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+        const gid = 'flyGrad';
+        const grad = fl.querySelector('linearGradient'); if (grad) grad.id = gid;
+        fl.querySelectorAll('[fill]').forEach(n => { if (/url\(#/.test(n.getAttribute('fill'))) n.setAttribute('fill', 'url(#' + gid + ')'); });
+        const size = s.h;
+        fl.style.cssText = 'position:fixed;z-index:-1;pointer-events:none;overflow:visible;width:' + (size * .81) + 'px;height:' + size + 'px;left:0;top:0;will-change:transform;';
+        document.body.appendChild(fl);
+        footStar.style.opacity = '0';
+        const duration = 2600, start = performance.now();
+        let lastTrail = 0, n = 0;
+        const px = [], trail = [];
+
+        function frame(now) {
+          const p = Math.min(1, (now - start) / duration), e = ease(p);
+          window.scrollTo({ top: y0 * (1 - e), behavior: 'instant' });
+          const ex = targetX, ey = targetDocY - window.scrollY;
+          // A swooping path: out to the right, high up the empty side, then curving in to the name.
+          const c1x = W * 1.12, c1y = s.y - (s.y - H * .35) * .5;
+          const c2x = W * 1.02, c2y = H * .08;
+          let x = bez(s.x, c1x, c2x, ex, e), y = bez(s.y, c1y, c2y, ey, e);
+          const wob = Math.sin(e * Math.PI * 5) * 16 * (1 - e) * Math.sin(Math.min(1, e * 6) * Math.PI / 2);
+          x += wob; y += wob * .6;
+          const sc = 1 + .55 * Math.sin(e * Math.PI);
+          const rot = e * 360 * .5;
+          fl.style.transform = 'translate(' + (x - size * .405) + 'px,' + (y - size / 2) + 'px) scale(' + sc + ') rotate(' + rot + 'deg)';
+          if (now - lastTrail > 30 && p < .97) {
+            lastTrail = now;
+            const d = document.createElement('div'); const r = 3 + Math.random() * 4;
+            d.style.cssText = 'position:fixed;z-index:-1;pointer-events:none;border-radius:50%;width:' + r + 'px;height:' + r + 'px;' +
+              'left:' + (x - r / 2 + (Math.random() - .5) * 8) + 'px;top:' + (y - r / 2 + (Math.random() - .5) * 8) + 'px;background:' + COLORS[(n++) % COLORS.length] + ';';
+            document.body.appendChild(d);
+            d.animate([{ opacity: .85, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(.2)' }], { duration: 750, easing: 'ease-out' }).onfinish = () => d.remove();
+          }
+          if (p < 1) { requestAnimationFrame(frame); return; }
+          fl.remove();
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          const f = center(heroStar);
+          land(f.x, f.y);
+          if (top) top.focus({ preventScroll: true });
+          setTimeout(() => { footStar.style.transition = 'opacity .8s'; footStar.style.opacity = ''; flying = false; }, 700);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      mark.addEventListener('click', fly);
+      mark.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fly(); } });
+    })();
 
     // Back to top arrow: shows after scrolling down; jumps to the top and moves keyboard focus there.
     (function () {
