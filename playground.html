@@ -6,6 +6,31 @@
   <title>Playground | Valentina Luzardo</title>
   <meta name="description" content="Outside work and creative projects by Valentina Luzardo.">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Gallery: a fixed collage that scales with the screen, so the arrangement is the same on phone and desktop. */
+    .gallery { position: relative; width: 100%; max-width: 46rem; margin: 0 auto 2rem; aspect-ratio: 436 / 521; }
+    .g-tile { position: absolute; overflow: hidden; border-radius: 8px; border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(119,143,229,.10), rgba(248,164,130,.07) 50%, rgba(63,163,151,.10)), var(--panel); }
+    .g-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .g-tile:not(:has(img))::after { content: attr(data-label); position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: .25rem;
+      font-family: var(--font-sans); font-size: clamp(.5625rem, 1.9vw, .8125rem); color: var(--dim); }
+  .g-a{left:0.00%;top:0.00%;width:30.96%;height:32.25%}
+  .g-b{left:0.00%;top:34.17%;width:30.96%;height:38.39%}
+  .g-c{left:0.00%;top:74.47%;width:48.85%;height:25.53%}
+  .g-d{left:33.03%;top:0.00%;width:15.83%;height:16.89%}
+  .g-e{left:33.03%;top:17.27%;width:15.83%;height:18.04%}
+  .g-f{left:33.03%;top:37.04%;width:15.83%;height:18.23%}
+  .g-g{left:33.03%;top:57.01%;width:15.83%;height:15.55%}
+  .g-h{left:50.92%;top:0.00%;width:16.06%;height:35.32%}
+  .g-i{left:50.92%;top:64.49%;width:16.06%;height:17.27%}
+  .g-j{left:50.92%;top:83.69%;width:16.06%;height:16.31%}
+  .g-k{left:69.27%;top:0.00%;width:30.73%;height:35.32%}
+  .g-l{left:50.92%;top:37.04%;width:49.08%;height:25.91%}
+  .g-m{left:69.27%;top:64.68%;width:30.73%;height:35.32%}
+    .home-link { display: flex; justify-content: center; padding-bottom: 2.5rem; margin: 0; }
+    .home-link a { font-family: var(--font-sans); font-size: .8125rem; line-height: 1; color: var(--dim); text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; padding: .9rem .75rem; min-height: 44px; display: inline-flex; align-items: center; transition: color var(--fade); }
+    .home-link a:hover { color: var(--text); }
+  </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to main content</a>
@@ -16,15 +41,27 @@
 
   <main id="main">
     <section class="page-head">
-      <h1>Header 4 - Playground</h1>
+      <h1>Playground</h1>
       <p>Subtitle 4 - Short description of outside work and creative projects</p>
     </section>
 
-    <ul class="playground-grid">
-      <li class="tile"><h2>Playground Item 1</h2><p>Description 1 - Type of work</p></li>
-      <li class="tile"><h2>Playground Item 2</h2><p>Description 2 - Type of work</p></li>
-      <li class="tile"><h2>Playground Item 3</h2><p>Description 3 - Type of work</p></li>
-    </ul>
+    <div class="gallery" role="img" aria-label="Gallery of Valentina Luzardo's artwork. It shows thirteen pictures in a collage of tall, wide and small frames. The pictures are visual only and there is nothing to click.">
+      <div class="g-tile g-a" data-label="Artwork 1"></div>
+      <div class="g-tile g-b" data-label="Artwork 2"></div>
+      <div class="g-tile g-c" data-label="Artwork 3"></div>
+      <div class="g-tile g-d" data-label="Artwork 4"></div>
+      <div class="g-tile g-e" data-label="Artwork 5"></div>
+      <div class="g-tile g-f" data-label="Artwork 6"></div>
+      <div class="g-tile g-g" data-label="Artwork 7"></div>
+      <div class="g-tile g-h" data-label="Artwork 8"></div>
+      <div class="g-tile g-i" data-label="Artwork 9"></div>
+      <div class="g-tile g-j" data-label="Artwork 10"></div>
+      <div class="g-tile g-k" data-label="Artwork 11"></div>
+      <div class="g-tile g-l" data-label="Artwork 12"></div>
+      <div class="g-tile g-m" data-label="Artwork 13"></div>
+    </div>
+
+    <p class="home-link"><a href="index.html">Back to home</a></p>
   </main>
 
   <script>
