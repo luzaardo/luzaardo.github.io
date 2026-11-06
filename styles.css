@@ -132,6 +132,7 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
   .menu-link { min-height: 56px; padding: .5rem 0; font-size: clamp(1.625rem, 7.5vw, 2.125rem); }
   .arrow { display: inline; }
   .project-card { aspect-ratio: 1 / 1; }
+  .result { font-size: min(6.15vw, 2.25rem); }
   .intro { padding: 3.25rem 0 1.5rem; }
   .subtitle { font-size: clamp(1.5rem, 7vw, 2rem); margin-bottom: 1.5rem; }
   h1 { margin-bottom: 1rem; }
