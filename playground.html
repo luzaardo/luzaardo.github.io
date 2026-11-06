@@ -8,25 +8,30 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     /* Gallery: a fixed collage that scales with the screen, so the arrangement is the same on phone and desktop. */
-    .gallery { position: relative; width: 100%; max-width: 46rem; margin: 0 auto 2rem; aspect-ratio: 436 / 521; }
+    .gallery { position: relative; width: 100%; max-width: 46rem; margin: 0 auto 2rem; aspect-ratio: 436 / 856; }
     .g-tile { position: absolute; overflow: hidden; border-radius: 8px; border: 1px solid var(--line);
       background: linear-gradient(135deg, rgba(119,143,229,.10), rgba(248,164,130,.07) 50%, rgba(63,163,151,.10)), var(--panel); }
     .g-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
     .g-tile:not(:has(img))::after { content: attr(data-label); position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: .25rem;
       font-family: var(--font-sans); font-size: clamp(.5625rem, 1.9vw, .8125rem); color: var(--dim); }
-  .g-a{left:0.00%;top:0.00%;width:30.96%;height:32.25%}
-  .g-b{left:0.00%;top:34.17%;width:30.96%;height:38.39%}
-  .g-c{left:0.00%;top:74.47%;width:48.85%;height:25.53%}
-  .g-d{left:33.03%;top:0.00%;width:15.83%;height:16.89%}
-  .g-e{left:33.03%;top:17.27%;width:15.83%;height:18.04%}
-  .g-f{left:33.03%;top:37.04%;width:15.83%;height:18.23%}
-  .g-g{left:33.03%;top:57.01%;width:15.83%;height:15.55%}
-  .g-h{left:50.92%;top:0.00%;width:16.06%;height:35.32%}
-  .g-i{left:50.92%;top:64.49%;width:16.06%;height:17.27%}
-  .g-j{left:50.92%;top:83.69%;width:16.06%;height:16.31%}
-  .g-k{left:69.27%;top:0.00%;width:30.73%;height:35.32%}
-  .g-l{left:50.92%;top:37.04%;width:49.08%;height:25.91%}
-  .g-m{left:69.27%;top:64.68%;width:30.73%;height:35.32%}
+  .g-a{left:0.00%;top:0.00%;width:30.96%;height:19.63%}
+  .g-b{left:0.00%;top:20.79%;width:30.96%;height:23.36%}
+  .g-c{left:0.00%;top:45.33%;width:48.85%;height:15.54%}
+  .g-d{left:33.03%;top:0.00%;width:15.83%;height:10.28%}
+  .g-e{left:33.03%;top:10.51%;width:15.83%;height:10.98%}
+  .g-f{left:33.03%;top:22.55%;width:15.83%;height:11.10%}
+  .g-g{left:33.03%;top:34.70%;width:15.83%;height:9.46%}
+  .g-h{left:50.92%;top:0.00%;width:16.06%;height:21.50%}
+  .g-i{left:50.92%;top:39.25%;width:16.06%;height:10.51%}
+  .g-j{left:50.92%;top:50.93%;width:16.06%;height:9.93%}
+  .g-k{left:69.27%;top:0.00%;width:30.73%;height:21.50%}
+  .g-l{left:50.92%;top:22.55%;width:49.08%;height:15.77%}
+  .g-m{left:69.27%;top:39.37%;width:30.73%;height:21.50%}
+  .g-n1{left:0.00%;top:61.92%;width:48.85%;height:15.54%}
+  .g-n2{left:50.92%;top:61.92%;width:49.08%;height:15.54%}
+  .g-n3{left:0.00%;top:78.50%;width:30.96%;height:21.50%}
+  .g-n4{left:33.03%;top:78.50%;width:33.94%;height:21.50%}
+  .g-n5{left:69.27%;top:78.50%;width:30.73%;height:21.50%}
     .home-link { display: flex; justify-content: center; padding-bottom: 2.5rem; margin: 0; }
     .home-link a { font-family: var(--font-sans); font-size: .8125rem; line-height: 1; color: var(--dim); text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; padding: .9rem .75rem; min-height: 44px; display: inline-flex; align-items: center; transition: color var(--fade); }
     .home-link a:hover { color: var(--text); }
@@ -45,20 +50,25 @@
       <p>Subtitle 4 - Short description of outside work and creative projects</p>
     </section>
 
-    <div class="gallery" role="img" aria-label="Gallery of Valentina Luzardo's artwork. It shows thirteen pictures in a collage of tall, wide and small frames. The pictures are visual only and there is nothing to click.">
-      <div class="g-tile g-a"><img src="images/play-no-title-2023-960.webp" srcset="images/play-no-title-2023-480.webp 480w, images/play-no-title-2023-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.310)" alt="" loading="lazy" decoding="async"></div>
-      <div class="g-tile g-b"><img src="images/play-gloves-960.webp" srcset="images/play-gloves-480.webp 480w, images/play-gloves-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.310)" alt="" loading="lazy" decoding="async"></div>
+    <div class="gallery" role="img" aria-label="Gallery of Valentina Luzardo's artwork. It shows eighteen pictures in a collage of tall, wide and small frames. The pictures are visual only and there is nothing to click.">
+      <div class="g-tile g-a"><img src="images/play-back-portrait-960.webp" srcset="images/play-back-portrait-480.webp 480w, images/play-back-portrait-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.310)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-b"><img src="images/play-old-friends-2025-960.webp" srcset="images/play-old-friends-2025-480.webp 480w, images/play-old-friends-2025-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.310)" alt="" loading="lazy" decoding="async"></div>
       <div class="g-tile g-c"><img src="images/play-dance-class-960.webp" srcset="images/play-dance-class-480.webp 480w, images/play-dance-class-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.489)" alt="" loading="lazy" decoding="async"></div>
-      <div class="g-tile g-d"><img src="images/play-rudy-2026-960.webp" srcset="images/play-rudy-2026-480.webp 480w, images/play-rudy-2026-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async"></div>
-      <div class="g-tile g-e"><img src="images/play-luvlimbo-table-640.webp" srcset="images/play-luvlimbo-table-480.webp 480w, images/play-luvlimbo-table-640.webp 640w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async" style="object-position:12% 50%"></div>
-      <div class="g-tile g-f"><img src="images/play-necklaces-960.webp" srcset="images/play-necklaces-480.webp 480w, images/play-necklaces-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async"></div>
-      <div class="g-tile g-g"><img src="images/play-friends-group-960.webp" srcset="images/play-friends-group-480.webp 480w, images/play-friends-group-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async" style="object-position:52% 50%"></div>
-      <div class="g-tile g-h"><img src="images/play-earring-960.webp" srcset="images/play-earring-480.webp 480w, images/play-earring-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.161)" alt="" loading="lazy" decoding="async" style="object-position:52% 50%"></div>
-      <div class="g-tile g-i"><img src="images/play-coast-cliff-960.webp" srcset="images/play-coast-cliff-480.webp 480w, images/play-coast-cliff-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.161)" alt="" loading="lazy" decoding="async" style="object-position:55% 50%"></div>
-      <div class="g-tile g-j"><img src="images/play-old-friends-2025-960.webp" srcset="images/play-old-friends-2025-480.webp 480w, images/play-old-friends-2025-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.161)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-d"><img src="images/play-friends-group-960.webp" srcset="images/play-friends-group-480.webp 480w, images/play-friends-group-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async" style="object-position:52% 50%"></div>
+      <div class="g-tile g-e"><img src="images/play-rudy-2026-960.webp" srcset="images/play-rudy-2026-480.webp 480w, images/play-rudy-2026-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-f"><img src="images/play-gloves-960.webp" srcset="images/play-gloves-480.webp 480w, images/play-gloves-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-g"><img src="images/play-luvlimbo-table-640.webp" srcset="images/play-luvlimbo-table-480.webp 480w, images/play-luvlimbo-table-640.webp 640w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.158)" alt="" loading="lazy" decoding="async" style="object-position:12% 50%"></div>
+      <div class="g-tile g-h"><img src="images/play-waterfall-960.webp" srcset="images/play-waterfall-480.webp 480w, images/play-waterfall-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.161)" alt="" loading="lazy" decoding="async" style="object-position:50% 50%"></div>
+      <div class="g-tile g-i"><img src="images/play-necklaces-960.webp" srcset="images/play-necklaces-480.webp 480w, images/play-necklaces-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.161)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-j"><img src="images/play-group-960.webp" srcset="images/play-group-480.webp 480w, images/play-group-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.161)" alt="" loading="lazy" decoding="async" style="object-position:48% 50%"></div>
       <div class="g-tile g-k"><img src="images/play-upside-down-2026-960.webp" srcset="images/play-upside-down-2026-480.webp 480w, images/play-upside-down-2026-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.307)" alt="" loading="lazy" decoding="async" style="object-fit:contain;background:#000"></div>
-      <div class="g-tile g-l"><img src="images/play-group-960.webp" srcset="images/play-group-480.webp 480w, images/play-group-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.491)" alt="" loading="lazy" decoding="async"></div>
-      <div class="g-tile g-m"><img src="images/play-back-portrait-960.webp" srcset="images/play-back-portrait-480.webp 480w, images/play-back-portrait-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.307)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-l"><img src="images/play-adobe-960.webp" srcset="images/play-adobe-480.webp 480w, images/play-adobe-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.491)" alt="" loading="lazy" decoding="async" style="object-position:50% 90%"></div>
+      <div class="g-tile g-m"><img src="images/play-vampire-2025-960.webp" srcset="images/play-vampire-2025-480.webp 480w, images/play-vampire-2025-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.307)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-n1"><img src="images/play-train-960.webp" srcset="images/play-train-480.webp 480w, images/play-train-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.489)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-n2"><img src="images/play-church-960.webp" srcset="images/play-church-480.webp 480w, images/play-church-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.491)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-n3"><img src="images/play-no-title-2023-960.webp" srcset="images/play-no-title-2023-480.webp 480w, images/play-no-title-2023-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.310)" alt="" loading="lazy" decoding="async"></div>
+      <div class="g-tile g-n4"><img src="images/play-coast-cliff-960.webp" srcset="images/play-coast-cliff-480.webp 480w, images/play-coast-cliff-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.339)" alt="" loading="lazy" decoding="async" style="object-position:55% 50%"></div>
+      <div class="g-tile g-n5"><img src="images/play-earring-960.webp" srcset="images/play-earring-480.webp 480w, images/play-earring-960.webp 960w" sizes="calc(min(100vw - 2.5rem, 46rem) * 0.307)" alt="" loading="lazy" decoding="async" style="object-position:52% 50%"></div>
     </div>
 
     <p class="home-link"><a href="index.html">Back to home</a></p>
