@@ -91,6 +91,7 @@ h1 { font-family: var(--font-serif); font-size: clamp(1.25rem, 2.2vw, 1.5rem); f
 
 
 /* ---------- Pop-ups ---------- */
+dialog, dialog * { font-family: var(--font-sans); }
 dialog {
   width: min(92vw, 40rem); max-height: 90vh; overflow: auto;
   background: var(--panel); color: var(--text);
@@ -114,7 +115,7 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 .contact-list a:hover .value { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .contact-list .icon { flex: none; width: 2rem; height: 2rem; }
 .contact-list .row-text { display: flex; flex-direction: column; min-width: 0; }
-.contact-list .label { color: var(--muted); font-size: 1.125rem; font-weight: 600; }
+.contact-list .label { color: var(--muted); font-size: 1.125rem; font-weight: 400; }
 .contact-list .value { font-size: clamp(1.35rem, 5vw, 1.75rem); font-weight: 700; line-height: 1.25; }
 
 .cv-preview {

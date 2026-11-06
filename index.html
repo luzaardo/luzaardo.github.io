@@ -305,11 +305,11 @@
       let timer;
       const show = (holdMs) => { egg.classList.add('shown'); clearTimeout(timer); timer = setTimeout(hide, 1500 + holdMs); };
       const hide = () => { clearTimeout(timer); egg.classList.remove('shown'); };
-      egg.addEventListener('mouseenter', () => show(500));
+      egg.addEventListener('mouseenter', () => show(0));
       egg.addEventListener('focus', () => { egg.classList.add('shown'); clearTimeout(timer); });
       egg.addEventListener('blur', hide);
       setInterval(() => {
-        if (noHover.matches && !document.hidden && document.activeElement !== egg) show(3000);
+        if (noHover.matches && !document.hidden && document.activeElement !== egg) show(0);
       }, 20000);
     })();
   </script>
