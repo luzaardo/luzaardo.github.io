@@ -126,6 +126,8 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 .cv-preview .line.short { width: 40%; }
 .cv-preview .line.mid { width: 70%; }
 .cv-preview .line.title { height: 1.2rem; width: 55%; background: #333; }
+/* Download link inside the CV pop-up: small and quiet, not a big headline */
+dialog .menu-link { font-size: 1rem; font-weight: 700; letter-spacing: 0; min-height: 44px; padding: .5rem 0; }
 .cv-note { color: var(--muted); font-size: 1rem; margin: 0 0 1.25rem; }
 
 /* ---------- Phone layout ---------- */
