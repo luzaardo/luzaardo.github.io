@@ -1,0 +1,355 @@
+<title>Portfolio Editor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/*SITE_CSS*/
+
+/* ---------- Editor chrome ---------- */
+:root { color-scheme: dark; --ed-accent: #a499e8; --ed-ok: #61d493; --ed-warn: #fcb25b; --ed-bar: 112px; }
+html, body { background: var(--bg); color: var(--text); }
+body { margin: 0; }
+.ed-bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(11,11,11,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  padding-block: .75rem; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--bg); }
+.ed-row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; }
+.ed-title { font-family: var(--font-sans); font-weight: 700; font-size: 1rem; margin-right: .5rem; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { font: 400 .875rem/1 var(--font-sans); color: var(--muted); background: transparent; border: 0; padding: .55rem .8rem; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"], .seg button[aria-selected="true"] { background: var(--text); color: #000; font-weight: 700; }
+.seg button:not([aria-pressed="true"]):not([aria-selected="true"]):hover { color: var(--text); background: rgba(255,255,255,.06); }
+.ed-btn { font: 400 .875rem/1 var(--font-sans); color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: .55rem .8rem; cursor: pointer; }
+.ed-btn:hover:not(:disabled) { border-color: var(--text); }
+.ed-btn:disabled { opacity: .4; cursor: default; }
+#status { margin-left: auto; font: 400 .8125rem/1 var(--font-sans); color: var(--muted); display: inline-flex; align-items: center; gap: .45rem; }
+#status::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--dim); }
+#status[data-s="ok"]::before { background: var(--ed-ok); }
+#status[data-s="busy"]::before { background: var(--ed-accent); }
+#status[data-s="warn"]::before { background: var(--ed-warn); }
+.ed-hint { margin: .55rem 0 0; font: 400 .8125rem/1.45 var(--font-sans); color: var(--muted); max-width: 60rem; }
+.ed-stage { padding: 1.25rem 0 6rem; padding-left: max(0px, env(safe-area-inset-left, 0px)); padding-right: max(0px, env(safe-area-inset-right, 0px)); }
+.ed-frame { margin: 0 auto; max-width: 1440px; }
+.ed-frame[data-view="phone"] { max-width: 390px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.ed-page[hidden] { display: none; }
+.ed-frame[data-view="phone"] main { padding-inline: 1.25rem; }
+.ed-also-note { font: 400 .8125rem/1.4 var(--font-sans); color: var(--dim); margin: 0; }
+.ed-also { opacity: .75; pointer-events: none; user-select: none; }
+
+/* Editing affordances (not saved into the page) */
+.case-body [contenteditable] { outline: none; cursor: text; border-radius: 4px; transition: background .15s; }
+.case-body [contenteditable]:hover { background: rgba(255,255,255,.05); }
+.case-body [contenteditable]:focus { background: rgba(164,153,232,.12); box-shadow: 0 0 0 2px var(--ed-accent); }
+.case-body [contenteditable]:empty::before { content: "Type here…"; color: var(--dim); }
+.case-body .img-slot { cursor: pointer; }
+.case-body .img-slot:not(:has(img))::after { content: attr(data-label) "\A Click to add an image"; white-space: pre-line; line-height: 1.6; }
+.case-body .img-slot.dragging { outline: 2px dashed var(--ed-accent); outline-offset: -4px; }
+
+#hilite { position: fixed; z-index: 50; pointer-events: none; border: 1.5px solid var(--ed-accent); border-radius: 6px; box-shadow: 0 0 0 1px rgba(11,11,11,.6); }
+.tools { position: fixed; z-index: 80; display: flex; align-items: center; gap: .25rem; background: #1c1c1c; border: 1px solid #444; border-radius: 8px; padding: .25rem; box-shadow: 0 6px 20px rgba(0,0,0,.5); font-family: var(--font-sans); }
+.tools[hidden] { display: none; }
+.tools .chip { font-size: .75rem; color: var(--muted); padding: 0 .5rem; white-space: nowrap; }
+.tools button { font: 400 .8125rem/1 var(--font-sans); color: var(--text); background: transparent; border: 0; border-radius: 6px; padding: .5rem .6rem; cursor: pointer; white-space: nowrap; }
+.tools button:hover:not(:disabled) { background: rgba(255,255,255,.12); }
+.tools button.danger:hover { background: rgba(214,69,80,.35); }
+.tools button:disabled { opacity: .35; cursor: default; }
+.tools input[type="text"] { font: 400 .8125rem/1 var(--font-sans); color: var(--text); background: #0b0b0b; border: 1px solid #444; border-radius: 6px; padding: .45rem .55rem; width: 15rem; }
+#imgtools { flex-wrap: wrap; max-width: 24rem; }
+#toast { position: fixed; left: 50%; bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 90; background: #1c1c1c; border: 1px solid #555; color: var(--text); border-radius: 8px; padding: .65rem .9rem; font: 400 .875rem/1.3 var(--font-sans); display: flex; gap: .9rem; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+#toast[hidden] { display: none; }
+#toast button { font: 700 .875rem var(--font-sans); background: none; border: 0; color: var(--ed-accent); cursor: pointer; padding: 0; }
+.sr-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="ed-bar">
+  <div class="ed-row">
+    <span class="ed-title">Portfolio editor</span>
+    <div class="seg" role="group" aria-label="Page to edit">
+      <button type="button" id="tab-project-1" aria-pressed="true">Project 1 · Bocabox</button>
+      <button type="button" id="tab-project-2" aria-pressed="false">Project 2 · Postpartum</button>
+    </div>
+    <div class="seg" role="group" aria-label="Preview width">
+      <button type="button" id="view-desktop" aria-pressed="true">Desktop</button>
+      <button type="button" id="view-phone" aria-pressed="false">Phone</button>
+    </div>
+    <button type="button" class="ed-btn" id="undo" disabled>Undo</button>
+    <button type="button" class="ed-btn" id="redo" disabled>Redo</button>
+    <span id="status" role="status" data-s="busy">Loading…</span>
+  </div>
+  <p class="ed-hint">Click any text to type over it. Hover a block to move, copy or delete it. Click an image area to add a photo. Keyboard: Alt + Up or Down moves the block you are editing; Alt + Shift + D copies it. When you are done, tell Claude “publish”.</p>
+</div>
+
+<div class="ed-stage">
+  <div class="ed-frame" id="frame" data-view="desktop">
+    <main class="ed-page" id="page-project-1"><article class="case-body" id="root-project-1"><!--P1--></article><div class="ed-also"><!--A1--></div></main>
+    <main class="ed-page" id="page-project-2" hidden><article class="case-body" id="root-project-2"><!--P2--></article><div class="ed-also"><!--A2--></div></main>
+  </div>
+</div>
+
+<div id="hilite" hidden></div>
+<div class="tools" id="blocktools" role="toolbar" aria-label="Block tools" hidden>
+  <span class="chip" id="bt-label">Block</span>
+  <button type="button" data-act="parent" title="Select the block this one sits inside">Parent</button>
+  <button type="button" data-act="up" title="Move up">Up</button>
+  <button type="button" data-act="down" title="Move down">Down</button>
+  <button type="button" data-act="dup" title="Duplicate">Copy</button>
+  <button type="button" data-act="del" class="danger" title="Delete (you can undo)">Delete</button>
+</div>
+<div class="tools" id="imgtools" role="toolbar" aria-label="Image tools" hidden>
+  <button type="button" data-img="upload" id="it-upload">Add image</button>
+  <button type="button" data-img="fit" id="it-fit">Fill</button>
+  <button type="button" data-img="shape" id="it-shape">Shape</button>
+  <button type="button" data-img="remove" id="it-remove" class="danger">Remove</button>
+  <input type="text" id="it-alt" aria-label="Image description for screen readers" placeholder="Describe the image (for screen readers)">
+</div>
+<div id="toast" hidden role="status"><span id="toast-msg"></span><button type="button" id="toast-undo" hidden>Undo</button></div>
+<input type="file" id="file" accept="image/*" hidden>
+
+<script>
+(function () {
+  const PAGES = ['project-1', 'project-2'];
+  const TEXT_SEL = 'h1,h2,h3,p,li,figcaption,.num,.desc,.t,.v';
+  const BLOCK_SEL = 'section,.sub,figure,p,h2,h3,ul,ol,li,.metric,.goal,.meta>div,.note,.figs,.metrics,.goals';
+  const RATIOS = ['16/9', '4/3', '1/1', '3/4', '21/9'];
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const st = {};            // per page: { root, hist, idx, timer }
+  let current = PAGES[0], db = null, assets = null, active = null, slotActive = null, pendingSlot = null;
+  let overTools = false, hideTimer = null, mouseIsDown = false;
+
+  // ---------- helpers ----------
+  const status = (t, s) => { const e = $('#status'); e.textContent = t; e.dataset.s = s || ''; };
+  let toastTimer = null;
+  function toast(msg, undoFn) {
+    $('#toast-msg').textContent = msg; const u = $('#toast-undo'); u.hidden = !undoFn; u.onclick = () => { undoFn && undoFn(); $('#toast').hidden = true; };
+    $('#toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('#toast').hidden = true; }, undoFn ? 7000 : 3500);
+  }
+  const root = () => st[current].root;
+
+  function cleanInline(el) {
+    const tpl = document.createElement('template'); tpl.innerHTML = el.innerHTML;
+    const MAP = { B: 'strong', STRONG: 'strong', I: 'em', EM: 'em', BR: 'br' };
+    (function walk(n) {
+      Array.from(n.childNodes).forEach(c => {
+        if (c.nodeType === 1) {
+          walk(c);
+          const tag = MAP[c.tagName];
+          if (tag) { const r = document.createElement(tag); while (c.firstChild) r.appendChild(c.firstChild); c.replaceWith(r); }
+          else { while (c.firstChild) c.parentNode.insertBefore(c.firstChild, c); c.remove(); }
+        }
+      });
+    })(tpl.content);
+    let html = tpl.innerHTML.replace(/(<br>)+$/g, '').replace(/&nbsp;/g, ' ');
+    if (html !== el.innerHTML) el.innerHTML = html;
+  }
+
+  function enhance(scope) {
+    $$(TEXT_SEL, scope).forEach(el => { if (el.querySelector(BLOCK_SEL)) return; el.setAttribute('contenteditable', 'true'); el.setAttribute('spellcheck', 'true'); });
+    $$('img[data-asset]', scope).forEach(i => { i.src = '/_blob/' + i.dataset.asset; });
+  }
+  function serialize(r) {
+    const c = r.cloneNode(true);
+    $$('[contenteditable]', c).forEach(e => { e.removeAttribute('contenteditable'); e.removeAttribute('spellcheck'); });
+    $$('img', c).forEach(i => { if (i.dataset.asset) i.setAttribute('src', '/_blob/' + i.dataset.asset); });
+    $$('.dragging', c).forEach(e => e.classList.remove('dragging'));
+    return c.innerHTML.trim();
+  }
+
+  // ---------- history + saving ----------
+  function commit(p) {
+    p = p || current; const s = st[p]; const html = serialize(s.root);
+    if (s.hist[s.idx] === html) return;
+    s.hist = s.hist.slice(0, s.idx + 1); s.hist.push(html); s.idx = s.hist.length - 1; if (s.hist.length > 60) { s.hist.shift(); s.idx--; }
+    updateUndo(); scheduleSave(p);
+  }
+  function restore(p, html) { const s = st[p]; s.root.innerHTML = html; enhance(s.root); hideTools(true); updateUndo(); scheduleSave(p); }
+  function undo() { const s = st[current]; if (s.idx > 0) { s.idx--; restore(current, s.hist[s.idx]); } }
+  function redo() { const s = st[current]; if (s.idx < s.hist.length - 1) { s.idx++; restore(current, s.hist[s.idx]); } }
+  function updateUndo() { const s = st[current]; $('#undo').disabled = !(s && s.idx > 0); $('#redo').disabled = !(s && s.idx < s.hist.length - 1); }
+  function scheduleSave(p) { status('Saving…', 'busy'); clearTimeout(st[p].timer); st[p].timer = setTimeout(() => save(p), 800); }
+  async function save(p) {
+    if (!db) { status('Not connected: changes are not being stored', 'warn'); return; }
+    const html = serialize(st[p].root);
+    if (html.length > 220000) { status('This page is getting too large to save. Remove some content.', 'warn'); return; }
+    try { await db.doc('pages/' + p).set({ html, savedAt: Date.now(), v: 1 }); const d = new Date(); status('All changes saved · ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }), 'ok'); }
+    catch (e) { status('Could not save: ' + ((e && (e.message || e.code)) || 'unknown error'), 'warn'); }
+  }
+
+  // ---------- block tools ----------
+  const blockOf = el => { const b = el && el.closest && el.closest(BLOCK_SEL); return b && root().contains(b) && b !== root() ? b : null; };
+  function labelOf(b) {
+    if (b.matches('section.hero')) return 'Project header';
+    if (b.matches('section')) { const e = $('.eyebrow', b); const l = $('h3.label', b); const t = (e && e.textContent) || (l && l.textContent) || ''; return t ? t.trim().slice(0, 28) : 'Section'; }
+    if (b.matches('.sub')) return 'Sub-section';
+    if (b.matches('figure')) return 'Image and caption';
+    if (b.matches('.eyebrow')) return 'Section label';
+    if (b.matches('.hero-sub')) return 'Subtitle';
+    if (b.matches('p')) return 'Paragraph';
+    if (b.matches('h2')) return 'Headline';
+    if (b.matches('h3')) return 'Subheading';
+    if (b.matches('ul,ol')) return 'List';
+    if (b.matches('li')) return b.closest('.tags') ? 'Tag' : 'List item';
+    if (b.matches('.metric')) return 'Key result';
+    if (b.matches('.metrics')) return 'Key results row';
+    if (b.matches('.goal')) return 'Card';
+    if (b.matches('.goals')) return 'Card row';
+    if (b.matches('.meta>div')) return 'Detail';
+    if (b.matches('.note')) return 'Note';
+    if (b.matches('.figs')) return 'Image row';
+    return 'Block';
+  }
+  function place() {
+    const hl = $('#hilite'), bt = $('#blocktools');
+    if (active && root().contains(active)) {
+      const r = active.getBoundingClientRect();
+      hl.hidden = false; Object.assign(hl.style, { left: r.left - 3 + 'px', top: r.top - 3 + 'px', width: r.width + 6 + 'px', height: r.height + 6 + 'px' });
+      bt.hidden = false; $('#bt-label').textContent = labelOf(active);
+      const barH = $('.ed-bar').getBoundingClientRect().height;
+      const w = bt.offsetWidth; let top = r.top - 38; if (top < barH + 4) top = Math.min(r.top + 4, window.innerHeight - 44);
+      let left = Math.min(Math.max(8, r.right - w), window.innerWidth - w - 8);
+      Object.assign(bt.style, { top: top + 'px', left: left + 'px' });
+      const prev = active.previousElementSibling, next = active.nextElementSibling;
+      $('[data-act="up"]', bt).disabled = !prev; $('[data-act="down"]', bt).disabled = !next;
+      $('[data-act="parent"]', bt).disabled = !(active.parentElement && blockOf(active.parentElement));
+    } else { hl.hidden = true; bt.hidden = true; }
+    const it = $('#imgtools');
+    if (slotActive && root().contains(slotActive)) {
+      const r = slotActive.getBoundingClientRect(); const img = $('img', slotActive); const hero = !!slotActive.closest('.hero');
+      it.hidden = false; $('#it-upload').textContent = img ? 'Replace image' : 'Add image';
+      $('#it-fit').hidden = !img; $('#it-fit').textContent = slotActive.dataset.fit === 'contain' ? 'Fit: whole' : 'Fit: fill';
+      $('#it-shape').hidden = hero; $('#it-remove').hidden = !img; $('#it-alt').hidden = !img; if (img && document.activeElement !== $('#it-alt')) $('#it-alt').value = img.alt || '';
+      const barH = $('.ed-bar').getBoundingClientRect().height;
+      Object.assign(it.style, { left: Math.max(8, r.left + 8) + 'px', top: Math.max(barH + 6, Math.min(r.top + 8, window.innerHeight - 60)) + 'px' });
+    } else it.hidden = true;
+  }
+  function setActive(b) { active = b; place(); }
+  function hideTools(now) { clearTimeout(hideTimer); const go = () => { active = null; slotActive = null; place(); }; if (now) go(); else hideTimer = setTimeout(() => { if (!overTools) go(); }, 250); }
+  ['scroll', 'resize'].forEach(ev => window.addEventListener(ev, () => requestAnimationFrame(place), { passive: true }));
+  ['#blocktools', '#imgtools'].forEach(s => { const e = $(s); e.addEventListener('pointerenter', () => { overTools = true; clearTimeout(hideTimer); }); e.addEventListener('pointerleave', () => { overTools = false; hideTools(); }); });
+
+  function move(b, dir) {
+    const sib = dir < 0 ? b.previousElementSibling : b.nextElementSibling; if (!sib) return;
+    if (dir < 0) b.parentNode.insertBefore(b, sib); else b.parentNode.insertBefore(sib, b);
+    commit(); setActive(b); b.scrollIntoView({ block: 'nearest' });
+  }
+  function dup(b) { const c = b.cloneNode(true); b.after(c); enhance(c); commit(); setActive(c); toast('Copied. The copy is just below.'); }
+  function del(b) {
+    const name = labelOf(b); const before = serialize(root()); const p = current;
+    b.remove(); active = null; commit(); place();
+    toast('Deleted ' + name.toLowerCase(), () => { restoreTo(p, before); });
+  }
+  function restoreTo(p, html) { const s = st[p]; s.root.innerHTML = html; enhance(s.root); commit(p); }
+  $('#blocktools').addEventListener('click', e => {
+    const a = e.target.closest('button'); if (!a || !active) return; const act = a.dataset.act;
+    if (act === 'up') move(active, -1); else if (act === 'down') move(active, 1); else if (act === 'dup') dup(active); else if (act === 'del') del(active);
+    else if (act === 'parent') { const pb = blockOf(active.parentElement); if (pb) setActive(pb); }
+  });
+
+  // ---------- text editing ----------
+  const frame = $('#frame');
+  frame.addEventListener('pointerover', e => {
+    if (!e.target.closest) return; clearTimeout(hideTimer);
+    const b = blockOf(e.target); if (b && b !== active) setActive(b);
+    const hero = e.target.closest('.hero'); const s = e.target.closest('.img-slot') || (hero && $(':scope > .img-slot', hero));
+    if (s !== slotActive) { slotActive = s; place(); }
+  });
+  frame.addEventListener('pointerleave', () => hideTools());
+  frame.addEventListener('pointerdown', () => { mouseIsDown = true; setTimeout(() => { mouseIsDown = false; }, 300); });
+  frame.addEventListener('focusin', e => {
+    const t = e.target; if (!t.matches || !t.matches('[contenteditable]')) return;
+    t.__before = t.innerHTML; setActive(blockOf(t));
+    if (!mouseIsDown) { const r = document.createRange(); r.selectNodeContents(t); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
+  frame.addEventListener('focusout', e => {
+    const t = e.target; if (!t.matches || !t.matches('[contenteditable]')) return;
+    cleanInline(t); if (t.__before !== t.innerHTML) commit();
+  });
+  frame.addEventListener('input', e => { if (e.target.matches && e.target.matches('[contenteditable]')) scheduleSave(current); });
+  frame.addEventListener('paste', e => {
+    if (!e.target.closest || !e.target.closest('[contenteditable]')) return;
+    e.preventDefault(); const txt = (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\s*\n+\s*/g, ' ');
+    document.execCommand('insertText', false, txt);
+  });
+  frame.addEventListener('keydown', e => {
+    const t = e.target; if (!t.matches || !t.matches('[contenteditable]')) return;
+    const b = blockOf(t);
+    if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); if (b) { t.blur(); move(b, e.key === 'ArrowUp' ? -1 : 1); t.focus(); } return; }
+    if (e.altKey && e.shiftKey && e.key.toLowerCase() === 'd') { e.preventDefault(); if (b) dup(b); return; }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (t.matches('p:not(.eyebrow):not(.hero-sub), li') && b === t) {
+        cleanInline(t); const c = t.cloneNode(true); c.textContent = 'New text'; t.after(c); enhance(c); commit(); c.focus();
+      } else t.blur();
+    }
+  });
+  // Toolbar-free fallback: Escape leaves the field
+  frame.addEventListener('keydown', e => { if (e.key === 'Escape' && e.target.blur) e.target.blur(); });
+
+  // ---------- images ----------
+  async function downscale(file) {
+    if (/svg|gif/.test(file.type) || file.size < 250000) return file;
+    try {
+      const bmp = await createImageBitmap(file); const k = Math.min(1, 2200 / Math.max(bmp.width, bmp.height));
+      const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * k); cv.height = Math.round(bmp.height * k);
+      cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+      const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', .9)); return blob || file;
+    } catch (e) { return file; }
+  }
+  async function setImage(slot, file) {
+    if (!file || !/^image\//.test(file.type)) { toast('Please choose an image file.'); return; }
+    if (!assets) { toast('Image uploads work only when you open this editor signed in as its owner.'); return; }
+    toast('Uploading image…');
+    try {
+      const blob = await downscale(file); const r = await assets.upload(blob);
+      let img = $('img', slot); if (!img) { img = document.createElement('img'); slot.appendChild(img); }
+      img.src = r.url; img.dataset.asset = r.id; if (!img.hasAttribute('alt')) img.alt = '';
+      commit(); place(); toast('Image added. Describe it in the box for screen readers.');
+    } catch (e) { toast('Upload failed: ' + ((e && (e.message || e.code)) || 'try a smaller file')); }
+  }
+  function pick(slot) { pendingSlot = slot; $('#file').value = ''; $('#file').click(); }
+  $('#file').addEventListener('change', e => { const f = e.target.files[0]; if (f && pendingSlot) setImage(pendingSlot, f); });
+  frame.addEventListener('click', e => { const s = e.target.closest && e.target.closest('.img-slot'); if (s && !e.target.closest('[contenteditable]')) pick(s); });
+  frame.addEventListener('dragover', e => { const s = e.target.closest && e.target.closest('.img-slot'); if (s) { e.preventDefault(); s.classList.add('dragging'); } });
+  frame.addEventListener('dragleave', e => { const s = e.target.closest && e.target.closest('.img-slot'); if (s) s.classList.remove('dragging'); });
+  frame.addEventListener('drop', e => { const s = e.target.closest && e.target.closest('.img-slot'); if (!s) return; e.preventDefault(); s.classList.remove('dragging'); const f = e.dataTransfer.files[0]; if (f) setImage(s, f); });
+  $('#imgtools').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || !slotActive) return; const k = b.dataset.img, s = slotActive;
+    if (k === 'upload') pick(s);
+    else if (k === 'fit') { s.dataset.fit = s.dataset.fit === 'contain' ? 'cover' : 'contain'; commit(); place(); }
+    else if (k === 'shape') { const i = RATIOS.indexOf(s.dataset.ratio); s.dataset.ratio = RATIOS[(i + 1) % RATIOS.length]; commit(); place(); toast('Shape: ' + s.dataset.ratio.replace('/', ':')); }
+    else if (k === 'remove') { const img = $('img', s); if (img) { img.remove(); commit(); place(); toast('Image removed.'); } }
+  });
+  $('#it-alt').addEventListener('input', e => { const img = slotActive && $('img', slotActive); if (img) { img.alt = e.target.value; scheduleSave(current); } });
+  $('#it-alt').addEventListener('change', () => commit());
+
+  // ---------- page + view switching ----------
+  function showPage(p) {
+    current = p; hideTools(true);
+    PAGES.forEach(x => { $('#page-' + x).hidden = x !== p; $('#tab-' + x).setAttribute('aria-pressed', String(x === p)); });
+    updateUndo(); window.scrollTo(0, 0);
+  }
+  PAGES.forEach(p => $('#tab-' + p).addEventListener('click', () => showPage(p)));
+  [['desktop', 'phone'], ['phone', 'desktop']].forEach(([v, o]) => $('#view-' + v).addEventListener('click', () => {
+    frame.dataset.view = v; $('#view-' + v).setAttribute('aria-pressed', 'true'); $('#view-' + o).setAttribute('aria-pressed', 'false'); hideTools(true);
+  }));
+  $('#undo').addEventListener('click', undo); $('#redo').addEventListener('click', redo);
+  window.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'z' && !(e.target.matches && e.target.matches('[contenteditable]'))) { e.preventDefault(); redo(); }
+  });
+
+  // ---------- start ----------
+  PAGES.forEach(p => { const r = $('#root-' + p); enhance(r); st[p] = { root: r, hist: [serialize(r)], idx: 0, timer: null }; });
+  updateUndo();
+  (async () => {
+    try {
+      const claude = window.claude; if (!claude || !claude.use) throw new Error('no runtime');
+      db = await claude.use('db'); assets = await claude.use('assets');
+      if (!db) { status('Not connected: changes are not being stored', 'warn'); return; }
+      for (const p of PAGES) {
+        const snap = await db.doc('pages/' + p).get();
+        if (snap.exists) { const d = snap.data(); if (d && d.html) { st[p].root.innerHTML = d.html; enhance(st[p].root); st[p].hist = [serialize(st[p].root)]; st[p].idx = 0; } }
+      }
+      updateUndo(); status('All changes saved', 'ok');
+    } catch (e) { status('Not connected: changes are not being stored', 'warn'); }
+  })();
+})();
+</script>
