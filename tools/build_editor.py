@@ -23,6 +23,6 @@ for i, name in ((1, 'project-1'), (2, 'project-2')):
     body = region(page, '<!-- EDITABLE:START', '<!-- EDITABLE:END -->')
     inner = re.search(r'<article class="case-body">\s*(.*?)\s*</article>', body, re.S).group(1)
     also = region(page, '<!-- ALSO:START', '<!-- ALSO:END -->')
-    tpl = tpl.replace('<!--P%d-->' % i, inline_imgs(inner)).replace('<!--A%d-->' % i, inline_imgs(also))
+    tpl = tpl.replace('<!--P%d-->' % i, inline_imgs(inner) + '</article><p class="home-link"><a href="#" onclick="return false">Back to home</a></p><article hidden>').replace('<!--A%d-->' % i, inline_imgs(also))
 open(out, 'w').write(tpl)
 print('editor built', len(tpl) // 1024, 'KB')
