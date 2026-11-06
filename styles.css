@@ -1,3 +1,13 @@
+/* ---------- Brand typefaces (free, open license; files are stored in the /fonts folder) ---------- */
+@font-face {
+  font-family: "Young Serif"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/young-serif-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Sans"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("fonts/instrument-sans-latin-700-normal.woff2") format("woff2");
+}
+
 :root {
   --bg: #0b0b0b;
   --panel: #161616;
@@ -6,6 +16,8 @@
   --line: #3a3a3a;
   --focus: #ffd84d;      /* bright outline for keyboard users */
   --fade: 250ms;
+  --font-serif: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -36,12 +48,12 @@ a, button { color: inherit; font: inherit; }
 /* ---------- Intro ---------- */
 main { padding: 0 clamp(1.25rem, 5vw, 4rem); }
 .intro { min-height: 62vh; display: flex; flex-direction: column; justify-content: center; padding: 3rem 0 2rem; }
-h1 { font-size: clamp(1.25rem, 2.2vw, 1.5rem); font-weight: 700; margin: 0 0 1.25rem; letter-spacing: .01em; }
-.subtitle { font-size: clamp(1.75rem, 4.2vw, 3.25rem); font-weight: 700; line-height: 1.1; letter-spacing: -.01em; max-width: 24ch; margin: 0 0 2.5rem; }
+h1 { font-family: var(--font-serif); font-size: clamp(1.25rem, 2.2vw, 1.5rem); font-weight: 400; margin: 0 0 1.25rem; letter-spacing: .01em; }
+.subtitle { font-family: var(--font-serif); font-size: clamp(1.75rem, 4.2vw, 3.25rem); font-weight: 400; line-height: 1.1; letter-spacing: -.01em; max-width: 24ch; margin: 0 0 2.5rem; }
 .menu { display: flex; gap: .5rem 3rem; flex-wrap: wrap; padding: 0; margin: 0; list-style: none; }
 .menu-link {
   background: none; border: 0; padding: .25rem 0; min-height: 44px; cursor: pointer;
-  display: inline-block; text-decoration-line: underline; line-height: 1.15;
+  display: inline-block; text-decoration-line: underline; line-height: 1.15; font-family: var(--font-sans);
   font-size: clamp(1.75rem, 4.2vw, 3.25rem); font-weight: 700; letter-spacing: -.01em;
   text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: .2em;
   transition: text-decoration-color var(--fade);
@@ -133,7 +145,7 @@ dialog::backdrop { background: rgba(0,0,0,.75); }
 /* ---------- Playground page ---------- */
 .page-top { padding: 1.25rem clamp(1.25rem, 5vw, 4rem) 0; }
 .page-head { padding: 3rem 0 2rem; }
-.page-head h1 { font-size: clamp(2.25rem, 6.5vw, 5rem); line-height: 1.1; letter-spacing: -.01em; margin: 0 0 1rem; }
+.page-head h1 { font-family: inherit; font-weight: 700; font-size: clamp(2.25rem, 6.5vw, 5rem); line-height: 1.1; letter-spacing: -.01em; margin: 0 0 1rem; }
 .page-head p { font-size: clamp(1.125rem, 2.2vw, 1.5rem); color: var(--muted); max-width: 40ch; margin: 0; }
 .playground-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding: 0 0 4rem; list-style: none; margin: 0; }
 .tile {
