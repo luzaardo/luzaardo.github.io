@@ -89,7 +89,7 @@
 .case-body .center { text-align: center; }
 
 /* "Also check out" */
-.also { max-width: 68rem; margin: 0 auto; border-top: 1px solid var(--line); padding: 2.5rem 0 5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.also { max-width: 68rem; margin: 0 auto; border-top: 1px solid var(--line); padding: 2.5rem 0 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
 .also > .eyebrow { margin: 0; font-family: var(--font-sans); font-weight: 700; font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
 .also .project { max-width: 28rem; }
 
@@ -99,7 +99,7 @@
 .hero > .img-slot:not(:has(img))::after { place-items: start end; text-align: right; }
 @container case (max-width: 560px) { .hero > .img-slot:not(:has(img))::after { display: none; } }
 
-/* Small "Back to home" link at the end of each project, bottom right */
-.home-link { max-width: 68rem; margin: 0 auto; display: flex; justify-content: flex-end; }
-.home-link a { font-family: var(--font-sans); font-size: .8125rem; line-height: 1; color: var(--dim); text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; padding: .9rem 0 .9rem .75rem; min-height: 44px; display: inline-flex; align-items: center; transition: color var(--fade); }
+/* Small "Back to home" link at the very bottom of each project page, centered */
+.home-link { max-width: 68rem; margin: 0 auto; padding-bottom: 2.5rem; display: flex; justify-content: center; }
+.home-link a { font-family: var(--font-sans); font-size: .8125rem; line-height: 1; color: var(--dim); text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; padding: .9rem .75rem; min-height: 44px; display: inline-flex; align-items: center; transition: color var(--fade); }
 .home-link a:hover { color: var(--text); }
